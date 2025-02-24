@@ -1067,7 +1067,7 @@ make_content_buf(
                                  ngx_sizeof_ssz("?C=N&amp;O=A"));
         }
         b->last = ngx_cpymem_ssz(b->last,
-                                 "\">Parent directory/</a></td>"
+                                 "\">---返回上层目录---</a></td>"
                                  "<td class=\"size\">-</td>"
                                  "<td class=\"date\">-</td>"
                                  "</tr>"
