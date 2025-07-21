@@ -353,7 +353,7 @@ typedef struct {
 
 /* 按名称降序比较目录条目 */
 static int ngx_libc_cdecl
-    ngx_http_fancyindex_cmp_entries_name_desc(const void *one, const void *two);
+    ngx_http_fancyindex_cmp_entries_name_cs_desc(const void *one, const void *two);
 /* 按大小降序比较目录条目 */
 static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_size_desc(const void *one, const void *two);
@@ -362,7 +362,7 @@ static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_mtime_desc(const void *one, const void *two);
 /* 按名称升序比较目录条目 */
 static int ngx_libc_cdecl
-    ngx_http_fancyindex_cmp_entries_name_asc(const void *one, const void *two);
+    ngx_http_fancyindex_cmp_entries_name_cs_asc(const void *one, const void *two);
 /* 按大小升序比较目录条目 */
 static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_size_asc(const void *one, const void *two);
@@ -419,7 +419,15 @@ static ngx_command_t  ngx_http_fancyindex_commands[] = {
       NGX_HTTP_LOC_CONF_OFFSET,
       offsetof(ngx_http_fancyindex_loc_conf_t, default_sort),
       &ngx_http_fancyindex_sort_criteria },
+	
+    { ngx_string("fancyindex_case_sensitive"),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_fancyindex_loc_conf_t, case_sensitive),
+      NULL },
 
+	
     { ngx_string("fancyindex_directories_first"),
       NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG,
       ngx_conf_set_flag_slot,
@@ -439,13 +447,6 @@ static ngx_command_t  ngx_http_fancyindex_commands[] = {
       ngx_conf_set_flag_slot,
       NGX_HTTP_LOC_CONF_OFFSET,
       offsetof(ngx_http_fancyindex_loc_conf_t, exact_size),
-      NULL },
-
-    { ngx_string("fancyindex_name_length"),
-      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_FLAG,
-      ngx_conf_set_num_slot,
-      NGX_HTTP_LOC_CONF_OFFSET,
-      offsetof(ngx_http_fancyindex_loc_conf_t, name_length),
       NULL },
 
     { ngx_string("fancyindex_header"),
@@ -698,7 +699,7 @@ make_content_buf(
     const char  *sort_url_args = "";
 
     off_t        length;
-    size_t       len, root, copy, allocated, escape_html;
+    size_t       len, root, allocated, escape_html;
     int64_t      multiplier;
     u_char      *filename, *last;
     ngx_tm_t     tm;
@@ -721,7 +722,7 @@ make_content_buf(
         return NGX_HTTP_INTERNAL_SERVER_ERROR;
 
     allocated = path.len;
-    path.len  = last - path.data - 1;
+    path.len  = last - path.data;
     path.data[path.len] = '\0';
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
@@ -929,7 +930,7 @@ make_content_buf(
          *     <td>大小</td><td>日期</td>
          *   </tr>
          */
-        len += ngx_sizeof_ssz("<tr><td class=\"link\"><a href=\"")
+       len += ngx_sizeof_ssz("<tr><td colspan=\"2\" class=\"link\"><a href=\"")
             + entry[i].name.len + entry[i].escape /* Escaped URL */
             + ngx_sizeof_ssz("?C=x&amp;O=y") /* URL排序参数 */
             + ngx_sizeof_ssz("\" title=\"")
@@ -994,12 +995,14 @@ make_content_buf(
             case 'N': /* 按名称排序 */
             default:
                 if (sort_descending) {
-                    sort_cmp_func = ngx_http_fancyindex_cmp_entries_name_desc;
+			sort_cmp_func = alcf->case_sensitive
+                        ? ngx_http_fancyindex_cmp_entries_name_cs_desc
+                        : ngx_http_fancyindex_cmp_entries_name_ci_desc;
                     if (alcf->default_sort != NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME_DESC)
                         sort_url_args = "?C=N&amp;O=D";
                 }
                 else {
-                    sort_cmp_func = ngx_http_fancyindex_cmp_entries_name_asc;
+                     : ngx_http_fancyindex_cmp_entries_name_ci_asc;
                     if (alcf->default_sort != NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME)
                         sort_url_args = "?C=N&amp;O=A";
                 }
@@ -1021,7 +1024,7 @@ make_content_buf(
                 sort_cmp_func = ngx_http_fancyindex_cmp_entries_size_asc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME_DESC:
-                sort_cmp_func = ngx_http_fancyindex_cmp_entries_name_desc;
+                 : ngx_http_fancyindex_cmp_entries_name_ci_asc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME:
             default:
