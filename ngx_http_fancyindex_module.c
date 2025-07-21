@@ -1140,36 +1140,19 @@ make_content_buf(
         len = entry[i].utf_len;
 
         b->last = (u_char *) ngx_escape_html(b->last, entry[i].name.data, entry[i].name.len);
-                copy = alcf->name_length + 1;
-            }
+        last = b->last - 3;
 
+	if (entry[i].dir) {
+            *b->last++ = '/';
+            len++;
+        }
+        b->last = ngx_cpymem_ssz(b->last, "</a></td><td class=\"size\">");
             last = b->last;
             b->last = ngx_utf8_cpystrn(b->last, entry[i].name.data,
                 copy, entry[i].name.len);
 
             b->last = (u_char *) ngx_escape_html(last, entry[i].name.data, b->last - last);
             last = b->last;
-
-        } else {
-            if (len > alcf->name_length) {
-                b->last = (u_char *) ngx_escape_html(b->last, entry[i].name.data, alcf->name_length + 1);
-            } else {
-                b->last = (u_char *) ngx_escape_html(b->last, entry[i].name.data, entry[i].name.len);
-            }
-            last = b->last - 3;
-        }
-
-        if (len > alcf->name_length) {
-            b->last = ngx_cpymem_ssz(last, "..&gt;</a></td><td class=\"size\">");
-
-        } else {
-            if (entry[i].dir && alcf->name_length - len > 0) {
-                *b->last++ = '/';
-                len++;
-            }
-
-            b->last = ngx_cpymem_ssz(b->last, "</a></td><td class=\"size\">");
-        }
 
         if (alcf->exact_size) {
             if (entry[i].dir) {
