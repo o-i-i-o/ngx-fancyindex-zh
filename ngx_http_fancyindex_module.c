@@ -1142,18 +1142,11 @@ make_content_buf(
         b->last = (u_char *) ngx_escape_html(b->last, entry[i].name.data, entry[i].name.len);
         last = b->last - 3;
 
-	if (entry[i].dir) {
+	  if (entry[i].dir) {
             *b->last++ = '/';
             len++;
         }
         b->last = ngx_cpymem_ssz(b->last, "</a></td><td class=\"size\">");
-            last = b->last;
-            b->last = ngx_utf8_cpystrn(b->last, entry[i].name.data,
-                copy, entry[i].name.len);
-
-            b->last = (u_char *) ngx_escape_html(last, entry[i].name.data, b->last - last);
-            last = b->last;
-
         if (alcf->exact_size) {
             if (entry[i].dir) {
                 *b->last++ = '-';
@@ -1407,6 +1400,16 @@ ngx_http_fancyindex_cmp_entries_name_desc(const void *one, const void *two)
 
 /* 按大小降序比较目录条目 */
 static int ngx_libc_cdecl
+ngx_http_fancyindex_cmp_entries_name_ci_desc(const void *one, const void *two)
+{
+    ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
+    ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
+
+    return (int) ngx_strcasecmp(second->name.data, first->name.data);
+}
+
+
+static int ngx_libc_cdecl
 ngx_http_fancyindex_cmp_entries_size_desc(const void *one, const void *two)
 {
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
@@ -1429,7 +1432,7 @@ ngx_http_fancyindex_cmp_entries_mtime_desc(const void *one, const void *two)
 
 /* 按名称升序比较目录条目 */
 static int ngx_libc_cdecl
-ngx_http_fancyindex_cmp_entries_name_asc(const void *one, const void *two)
+ngx_http_fancyindex_cmp_entries_name_cs_asc(const void *one, const void *two)
 {
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
@@ -1439,6 +1442,16 @@ ngx_http_fancyindex_cmp_entries_name_asc(const void *one, const void *two)
 
 
 /* 按大小升序比较目录条目 */
+static int ngx_libc_cdecl
+ngx_http_fancyindex_cmp_entries_name_ci_asc(const void *one, const void *two)
+{
+    ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
+    ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
+
+    return (int) ngx_strcasecmp(first->name.data, second->name.data);
+}
+
+
 static int ngx_libc_cdecl
 ngx_http_fancyindex_cmp_entries_size_asc(const void *one, const void *two)
 {
@@ -1497,9 +1510,9 @@ ngx_http_fancyindex_create_loc_conf(ngx_conf_t *cf)
      */
     conf->enable         = NGX_CONF_UNSET;
     conf->default_sort   = NGX_CONF_UNSET_UINT;
+    conf->case_sensitive = NGX_CONF_UNSET;
     conf->dirs_first     = NGX_CONF_UNSET;
     conf->localtime      = NGX_CONF_UNSET;
-    conf->name_length    = NGX_CONF_UNSET_UINT;
     conf->exact_size     = NGX_CONF_UNSET;
     conf->ignore         = NGX_CONF_UNSET_PTR;
     conf->hide_symlinks  = NGX_CONF_UNSET;
