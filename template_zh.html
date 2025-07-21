@@ -1,3 +1,4 @@
+<!-- var t01_head1 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,6 +9,9 @@
 				background:#fff;
 				font-family:"Bitstream Vera Sans","Lucida Grande",
 					"Lucida Sans Unicode",Lucidux,Verdana,Lucida,sans-serif;
+			}
+			table {
+				table-layout: fixed;
 			}
 			tr:nth-child(even) {
 				background:#f4f4f4;
@@ -31,11 +35,16 @@
 			a:hover {
 				color:#e33;
 			}
+			.link {
+				white-space: nowrap;
+				text-overflow: '>';
+				overflow: hidden;
+			}
 		</style>
 
 <!-- var t02_head2 -->
 
-		<title>目录索引
+		<title>目录索引：
 <!-- var NONE -->
 			/path/to/somewhere
 <!-- var t03_head3 -->
@@ -44,7 +53,7 @@
 	</head>
 <!-- var t04_body1 -->
 	<body>
-		<h1>目录索引
+		<h1>目录索引 ：
 <!-- var NONE -->
 			/path/to/somewhere
 <!-- var t05_body2 -->
@@ -54,35 +63,35 @@
 		<table id="list">
 			<thead>
 				<tr>
-					<th style="width:55%"><a href="?C=N&amp;O=A">文件名称</a>&nbsp;<a href="?C=N&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
-					<th style="width:20%"><a href="?C=S&amp;O=A">文件大小</a>&nbsp;<a href="?C=S&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
-					<th style="width:25%"><a href="?C=M&amp;O=A">上传日期</a>&nbsp;<a href="?C=M&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
+					<th colspan="2"><a href="?C=N&amp;O=A">文件名称</a>&nbsp;<a href="?C=N&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
+					<th><a href="?C=S&amp;O=A">文件大小</a>&nbsp;<a href="?C=S&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
+					<th><a href="?C=M&amp;O=A">上传时间</a>&nbsp;<a href="?C=M&amp;O=D">&nbsp;&darr;&nbsp;</a></th>
 				</tr>
 			</thead>
 
 			<tbody>
 <!-- var t_parentdir_entry -->
 				<tr>
-					<td class="link"><a href="../?C=N&amp;O=A">上级目录/</a></td>
+					<td colspan="2" class="link"><a href="../?C=N&amp;O=A">Parent directory/</a></td>
 					<td class="size">-</td>
 					<td class="date">-</td>
 				</tr>
 
 <!-- var NONE -->
 				<tr>
-					<td>测试文件 1</td>
+					<td colspan="2">test file 1</td>
 					<td>123kB</td>
-					<td>日期</td>
+					<td>date</td>
 				</tr>
 				<tr>
-					<td>测试文件 2</td>
+					<td colspan="2">test file 2</td>
 					<td>321MB</td>
-					<td>日期</td>
+					<td>date</td>
 				</tr>
 				<tr>
-					<td>测试文件 3</td>
+					<td colspan="2">test file 3</td>
 					<td>666</td>
-					<td>日期</td>
+					<td>date</td>
 				</tr>
 <!-- var t07_list2 -->
 			</tbody>
