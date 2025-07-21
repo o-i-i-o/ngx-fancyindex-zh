@@ -356,6 +356,8 @@ static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_name_cs_desc(const void *one, const void *two);
 /* 按大小降序比较目录条目 */
 static int ngx_libc_cdecl
+    ngx_http_fancyindex_cmp_entries_name_ci_desc(const void *one, const void *two);
+static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_size_desc(const void *one, const void *two);
 /* 按修改时间降序比较目录条目 */
 static int ngx_libc_cdecl
@@ -364,6 +366,8 @@ static int ngx_libc_cdecl
 static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_name_cs_asc(const void *one, const void *two);
 /* 按大小升序比较目录条目 */
+static int ngx_libc_cdecl
+	ngx_http_fancyindex_cmp_entries_name_ci_asc(const void *one, const void *two);
 static int ngx_libc_cdecl
     ngx_http_fancyindex_cmp_entries_size_asc(const void *one, const void *two);
 /* 按修改时间升序比较目录条目 */
@@ -722,7 +726,10 @@ make_content_buf(
         return NGX_HTTP_INTERNAL_SERVER_ERROR;
 
     allocated = path.len;
-    path.len  = last - path.data;
+    path.len = last - path.data;
+	 if (path.len > 1) {
+        path.len--;
+    }
     path.data[path.len] = '\0';
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
@@ -1389,7 +1396,7 @@ add_builtin_header:
 
 /* 按名称降序比较目录条目 */
 static int ngx_libc_cdecl
-ngx_http_fancyindex_cmp_entries_name_desc(const void *one, const void *two)
+ngx_http_fancyindex_cmp_entries_name_cs_desc(const void *one, const void *two)
 {
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
@@ -1535,12 +1542,12 @@ ngx_http_fancyindex_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
 
     ngx_conf_merge_value(conf->enable, prev->enable, 0);
     ngx_conf_merge_uint_value(conf->default_sort, prev->default_sort, NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME);
+    ngx_conf_merge_value(conf->case_sensitive, prev->case_sensitive, 1);
     ngx_conf_merge_value(conf->dirs_first, prev->dirs_first, 1);
     ngx_conf_merge_value(conf->localtime, prev->localtime, 0);
     ngx_conf_merge_value(conf->exact_size, prev->exact_size, 1);
     ngx_conf_merge_value(conf->show_path, prev->show_path, 1);
     ngx_conf_merge_value(conf->show_dot_files, prev->show_dot_files, 0);
-    ngx_conf_merge_uint_value(conf->name_length, prev->name_length, 50);
 
     ngx_conf_merge_str_value(conf->header.path, prev->header.path, "");
     ngx_conf_merge_str_value(conf->header.path, prev->header.local, "");
