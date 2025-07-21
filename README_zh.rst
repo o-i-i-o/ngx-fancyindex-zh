@@ -1,6 +1,6 @@
 Nginx Fancy Index 模块
 =====================
-
+## 机器翻译，若有模板使用需求，当使用产生问题时，请查阅英文原版说明
 // .. image:: https://travis-ci.com/aperezdc/ngx-fancyindex.svg?branch=master
 //   :target: https://travis-ci.com/aperezdc/ngx-fancyindex
 //  :alt: 构建状态
