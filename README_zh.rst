@@ -113,7 +113,7 @@ CentOS 7
 * `主题 <https://github.com/Naereen/Nginx-Fancyindex-Theme>`__ 由 `@Naereen <https://github.com/Naereen/>`__ 创建。使用自定义页眉和页脚，页眉包含使用 JavaScript 按文件名过滤的搜索字段。
 * `主题 <https://github.com/fraoustin/Nginx-Fancyindex-Theme>`__ 由 `@fraoustin <https://github.com/fraoustin>`__ 创建。使用 Material Design 元素的响应式主题。
 * `主题 <https://github.com/alehaa/nginx-fancyindex-flat-theme>`__ 由 `@alehaa <https://github.com/alehaa>`__ 创建。基于 Bootstrap 4 和 FontAwesome 的简单、扁平主题。
-* `主题 <https://github.com/alehaa/nginx-fancyindex-flat-theme>`__ 由 `@alehaa <https://github.com/alehaa>`__ 创建。基于 Bootstrap 4 和 FontAwesome 的简单、扁平主题。
+* `主题 <https://github.com/o-i-i-o/fancyindex-theme-zh>`__ 由 `我自己`__ 创建。简单汉化主题。
 
 指令
 ====
