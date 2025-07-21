@@ -944,7 +944,6 @@ make_content_buf(
             + entry[i].name.len + entry[i].utf_len + entry[i].escape_html
             + ngx_sizeof_ssz("\">")
             + entry[i].name.len + entry[i].utf_len + entry[i].escape_html
-            + alcf->name_length + ngx_sizeof_ssz("&gt;")
             + ngx_sizeof_ssz("</a></td><td class=\"size\">")
             + 20 /* 文件大小 */
             + ngx_sizeof_ssz("</td><td class=\"date\">")    /* 日期前缀 */
