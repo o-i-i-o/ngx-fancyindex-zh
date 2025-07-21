@@ -2,7 +2,7 @@
  * ngx_http_fancyindex_module.c
  * 版权所有 © 2007-2016 Adrian Perez <aperez@igalia.com>
  *
- * 用于目录的美化索引的模块。与标准nginx autoindex模块的特性和区别：
+ * 用于nginx autoindex的美化索引的模块。与标准nginx autoindex模块的特性和区别：
  *
  *  - 输出是表格形式，而非带有嵌入式<a>链接的<pre>元素。
  *  - 可以为每个生成的目录列表添加页眉和页脚。
