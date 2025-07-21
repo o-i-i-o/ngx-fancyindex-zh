@@ -5,7 +5,7 @@ Nginx Fancy Index 模块
   - //   :target: https://travis-ci.com/aperezdc/ngx-fancyindex
   - //  :alt: 构建状态
 
-.. contents::
+.. 正文::
 
 Fancy Index 模块使得生成文件列表成为可能，就像内置的 `autoindex <http://wiki.nginx.org/NginxHttpAutoindexModule>`__ 模块一样，但增加了一些样式。这是可能的，因为该模块允许对生成的内容进行一定程度的自定义：
 
