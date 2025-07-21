@@ -1108,7 +1108,7 @@ make_content_buf(
         b->last = ngx_cpymem_ssz(b->last,
                                  "\">上级目录/</a></td>"
                                  "<td class=\"size\">-</td>"
-                                 "<td class=\"link\"><a href=\"/\" >返回首页</a>/td>"
+                                 "<td class=\"link\"><a href=\"/\" >返回首页</a>"
                                  "</tr>"
                                  CRLF);
     }
