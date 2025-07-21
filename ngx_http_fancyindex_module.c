@@ -1024,7 +1024,9 @@ make_content_buf(
                 sort_cmp_func = ngx_http_fancyindex_cmp_entries_size_asc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME_DESC:
-                 : ngx_http_fancyindex_cmp_entries_name_ci_asc;
+                 sort_cmp_func = alcf->case_sensitive
+                    ? ngx_http_fancyindex_cmp_entries_name_cs_desc
+                    : ngx_http_fancyindex_cmp_entries_name_ci_desc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME:
             default:
