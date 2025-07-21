@@ -1106,7 +1106,7 @@ make_content_buf(
                                  ngx_sizeof_ssz("?C=N&amp;O=A"));
         }
         b->last = ngx_cpymem_ssz(b->last,
-                                 "\">上级目录/</a></td>"
+                                 "\">上级目录</a></td>"
                                  "<td class=\"size\">-</td>"
                                  "<td class=\"link\"><a href=\"/\" >返回首页</a>"
                                  "</tr>"
