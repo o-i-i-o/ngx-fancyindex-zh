@@ -158,10 +158,10 @@ typedef struct {
 typedef struct {
     ngx_flag_t enable;         /**< 模块是否启用。 */
     ngx_uint_t default_sort;   /**< 默认排序标准。 */
+    ngx_flag_t case_sensitive; /**< Case-sensitive name sorting */
     ngx_flag_t dirs_first;     /**< 排序时将目录分组在一起显示在前面 */
     ngx_flag_t localtime;      /**< 文件修改时间以本地时间显示 */
     ngx_flag_t exact_size;     /**< 文件大小始终以字节显示 */
-    ngx_uint_t name_length;    /**< 文件名的最大长度（字节） */
     ngx_flag_t hide_symlinks;  /**< 在列表中隐藏符号链接 */
     ngx_flag_t show_path;      /**< 是否在标题后显示路径 + '</h1>' */
     ngx_flag_t hide_parent;    /**< 隐藏上级目录 */
