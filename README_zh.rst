@@ -1,9 +1,9 @@
 Nginx Fancy Index 模块
 =====================
 
-.. image:: https://travis-ci.com/aperezdc/ngx-fancyindex.svg?branch=master
-   :target: https://travis-ci.com/aperezdc/ngx-fancyindex
-   :alt: 构建状态
+// .. image:: https://travis-ci.com/aperezdc/ngx-fancyindex.svg?branch=master
+//   :target: https://travis-ci.com/aperezdc/ngx-fancyindex
+//  :alt: 构建状态
 
 .. contents::
 
