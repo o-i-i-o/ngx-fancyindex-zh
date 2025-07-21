@@ -1,15 +1,15 @@
 #! /usr/bin/awk -f
-#
+# 经过测试，win-awk将导致乱码。
 # Copyright © Adrian Perez <aperez@igalia.com>
 #
-# Converts an HTML template into a C header suitable for inclusion.
-# Take a look at the HACKING.md file to know how to use it :-)
+# 将HTML模板转换为适合包含的C头文件。
+# 查看HACKING.rst文件了解使用方法 :-)
 #
-# This code is placed in the public domain.
+# 此代码已放入公共领域。
 
 BEGIN {
 	varname = 0;
-	print "/* Automagically generated, do not edit! */"
+	print "/* 此文件自动生成，请勿修改! */"
 	vars_count = 0;
 }
 
