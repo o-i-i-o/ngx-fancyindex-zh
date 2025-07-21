@@ -995,14 +995,16 @@ make_content_buf(
             case 'N': /* 按名称排序 */
             default:
                 if (sort_descending) {
-			sort_cmp_func = alcf->case_sensitive
+		sort_cmp_func = alcf->case_sensitive
                         ? ngx_http_fancyindex_cmp_entries_name_cs_desc
                         : ngx_http_fancyindex_cmp_entries_name_ci_desc;
                     if (alcf->default_sort != NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME_DESC)
                         sort_url_args = "?C=N&amp;O=D";
                 }
                 else {
-                     : ngx_http_fancyindex_cmp_entries_name_ci_asc;
+                sort_cmp_func = alcf->case_sensitive
+                        ? ngx_http_fancyindex_cmp_entries_name_cs_asc
+                        : ngx_http_fancyindex_cmp_entries_name_ci_asc;
                     if (alcf->default_sort != NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME)
                         sort_url_args = "?C=N&amp;O=A";
                 }
@@ -1024,13 +1026,15 @@ make_content_buf(
                 sort_cmp_func = ngx_http_fancyindex_cmp_entries_size_asc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME_DESC:
-                 sort_cmp_func = alcf->case_sensitive
+                sort_cmp_func = alcf->case_sensitive
                     ? ngx_http_fancyindex_cmp_entries_name_cs_desc
                     : ngx_http_fancyindex_cmp_entries_name_ci_desc;
                 break;
             case NGX_HTTP_FANCYINDEX_SORT_CRITERION_NAME:
             default:
-                sort_cmp_func = ngx_http_fancyindex_cmp_entries_name_asc;
+                sort_cmp_func = alcf->case_sensitive
+                    ? ngx_http_fancyindex_cmp_entries_name_cs_asc
+                    : ngx_http_fancyindex_cmp_entries_name_ci_asc;
                 break;
         }
     }
@@ -1089,7 +1093,7 @@ make_content_buf(
     if (r->uri.len > 1 && alcf->hide_parent == 0) {
         b->last = ngx_cpymem_ssz(b->last,
                                  "<tr>"
-                                 "<td class=\"link\"><a href=\"../");
+                                 "<td colspan=\"2\" class=\"link\"><a href=\"../");
         if (*sort_url_args) {
             b->last = ngx_cpymem(b->last,
                                  sort_url_args,
@@ -1105,7 +1109,7 @@ make_content_buf(
 
     /* 目录和文件条目 */
     for (i = 0; i < entries.nelts; i++) {
-        b->last = ngx_cpymem_ssz(b->last, "<tr><td class=\"link\"><a href=\"");
+        b->last = ngx_cpymem_ssz(b->last, "<tr><td colspan=\"2\" class=\"link\"><a href=\"");
 
         if (entry[i].escape) {
             ngx_fancyindex_escape_filename(b->last,
@@ -1135,10 +1139,7 @@ make_content_buf(
 
         len = entry[i].utf_len;
 
-        if (entry[i].name.len != len) {
-            if (len > alcf->name_length) {
-                copy = alcf->name_length - 3 + 1;
-            } else {
+        b->last = (u_char *) ngx_escape_html(b->last, entry[i].name.data, entry[i].name.len);
                 copy = alcf->name_length + 1;
             }
 
