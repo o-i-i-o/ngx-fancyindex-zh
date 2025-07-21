@@ -58,13 +58,13 @@ CentOS 7
 
 ::
 
-    $ gunzip -c nginx-?.?.?.tar.gz | tar -xvf -
+    $ tar -zxvf - nginx-?.?.?.tar.gz 
 
 2. 解压 fancy indexing 模块的源代码：
 
 ::
 
-    $ gunzip -c nginx-fancyindex-?.?.?.tar.gz | tar -xvf -
+    $ tar -zxvf nginx-fancyindex-?.?.?.tar.gz 
 
 3. 进入包含 Nginx_ 源代码的目录，运行配置脚本，使用所需的选项，并确保添加一个 ``--add-module`` 标志，指向包含 fancy indexing 模块源代码的目录：
 
@@ -113,7 +113,7 @@ CentOS 7
 * `主题 <https://github.com/Naereen/Nginx-Fancyindex-Theme>`__ 由 `@Naereen <https://github.com/Naereen/>`__ 创建。使用自定义页眉和页脚，页眉包含使用 JavaScript 按文件名过滤的搜索字段。
 * `主题 <https://github.com/fraoustin/Nginx-Fancyindex-Theme>`__ 由 `@fraoustin <https://github.com/fraoustin>`__ 创建。使用 Material Design 元素的响应式主题。
 * `主题 <https://github.com/alehaa/nginx-fancyindex-flat-theme>`__ 由 `@alehaa <https://github.com/alehaa>`__ 创建。基于 Bootstrap 4 和 FontAwesome 的简单、扁平主题。
-
+* `主题 <https://github.com/alehaa/nginx-fancyindex-flat-theme>`__ 由 `@alehaa <https://github.com/alehaa>`__ 创建。基于 Bootstrap 4 和 FontAwesome 的简单、扁平主题。
 
 指令
 ====
